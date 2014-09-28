@@ -1,10 +1,13 @@
 apply plugin: 'groovy'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
     mavenLocal()
 }
 
+group = 'io.ehdev'
 version = '1.0.0'
 
 dependencies {
@@ -17,6 +20,59 @@ dependencies {
 
 test {
     useTestNG()
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+
+      artifact sourceJar {
+        classifier "sources"
+      }
+
+    }
+  }
+}
+
+bintray {
+  user = bintreeUsername
+  key = bintreePassword
+  publications = ['mavenJava'] 
+  pkg {
+    repo = 'maven'
+    name = 'semantic-versioning'
+    desc = 'Symantic Versioning plugin for Gradle'
+    websiteUrl = 'https://github.com/ethankhall/gradle-semantic-versioning'
+    issueTrackerUrl = 'https://github.com/ethankhall/gradle-semantic-versioning/issues'
+    vcsUrl = 'https://github.com/ethankhall/gradle-semantic-versioning.git'
+    licenses = ['MIT']
+    labels = ['gradle']
+    publicDownloadNumbers = true
+    version {
+        vcsTag = '1.0.0'
+    }
+  }
+}
+
+task sourceJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the source code'
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    sourceJar
+}
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
+  }
 }
 
 task(type: Wrapper) {
