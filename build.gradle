@@ -51,6 +51,7 @@ bintray {
     publicDownloadNumbers = true
     version {
         vcsTag = '1.0.0'
+        attributes = [ 'gradle-plugin': 'com.github.ethankhall.semantic-versioning:io.ehdev:versioning' ]
     }
   }
 }
