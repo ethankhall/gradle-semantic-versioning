@@ -1,0 +1,22 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    testCompile 'org.testng:testng:6.8.7'
+    testCompile 'org.easytesting:fest-assert:1.4'
+}
+
+test {
+    useTestNG()
+}
+
+task(type: Wrapper) {
+    gradleVersion = '2.1'
+}
