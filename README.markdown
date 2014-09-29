@@ -10,13 +10,17 @@ This plugin is an implementation of [Symantic Versioning](http://semver.org/).
 
 To use it all you need to do is
 
-  project.version.with { major = 1; minor= 2; patch = 3}
+    apply plugin: 'com.github.ethankhall.semantic-versioning'
+
+To set the version do 
+
+    project.version.with { major = 1; minor= 2; patch = 3}
 
 That input will create the version string "1.2.3-SNAPSHOT" by default. If you add the 'release' task to your build the version string will become "1.2.3".
 
 If you need to add a pre-release version this plugin does this too!
 
-  project.version.with { major = 2; minor= 3; patch = 4; preRelease = "beta1"}
+    project.version.with { major = 2; minor= 3; patch = 4; preRelease = "beta1"}
 
 With that input you will get the version string "1.2.3-beta1-SNAPSHOT" and will be missing the "-SNAPSHOT" if the release task is called.
 

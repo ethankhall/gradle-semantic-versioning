@@ -10,7 +10,7 @@ class Version {
         if(preRelease){
             versionString += "-${preRelease}"
         }
-        if(!releaseBuild) {
+        if(!releaseBuild || System.getProperty("release")?.equalsIgnoreCase("true")) {
             versionString += "-SNAPSHOT"
         }
         return versionString;
