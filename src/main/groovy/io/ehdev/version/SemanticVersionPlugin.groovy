@@ -24,11 +24,7 @@ class SemanticVersionPlugin implements Plugin<Project> {
                 def newArts = publishTask.publication.getArtifacts().collect {art ->
                     def newPath = art.getFile().getPath().replace(publishTask.publication.version, project.version.toString())
                     def file = new File(newPath)
-                    if(file.exists()) {
-                        [classifier: art.classifier, extension: art.extension, file: file]
-                    } else {
-                        [classifier: art.classifier, extension: art.extension, file: art.file]
-                    }
+                    return [classifier: art.classifier, extension: art.extension, file: file]
                 }
                 publishTask.publication.getArtifacts().clear();
                 newArts.each {
