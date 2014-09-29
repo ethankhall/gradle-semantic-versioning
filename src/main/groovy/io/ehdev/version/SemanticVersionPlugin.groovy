@@ -1,9 +1,9 @@
 package io.ehdev.version
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.internal.artifact.DefaultMavenArtifact
 import org.gradle.api.publish.maven.internal.publisher.MavenProjectIdentity
 import org.gradle.api.publish.maven.tasks.GenerateMavenPom
-import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 
 class SemanticVersionPlugin implements Plugin<Project> {
@@ -21,10 +21,20 @@ class SemanticVersionPlugin implements Plugin<Project> {
             project.version.releaseBuild = taskGraph.hasTask(':release')
 
             project.tasks.withType(PublishToMavenRepository) { publishTask ->
-                publishTask.publication.version = project.version
-            }
+                def newArts = publishTask.publication.getArtifacts().collect {art ->
+                    def newPath = art.getFile().getPath().replace(publishTask.publication.version, project.version.toString())
+                    def file = new File(newPath)
+                    if(file.exists()) {
+                        [classifier: art.classifier, extension: art.extension, file: file]
+                    } else {
+                        [classifier: art.classifier, extension: art.extension, file: art.file]
+                    }
+                }
+                publishTask.publication.getArtifacts().clear();
+                newArts.each {
+                    publishTask.publication.getArtifacts().add(new DefaultMavenArtifact(it.file, it.extension, it.classifier))
+                }
 
-            project.tasks.withType(PublishToMavenLocal) { publishTask ->
                 publishTask.publication.version = project.version
             }
 

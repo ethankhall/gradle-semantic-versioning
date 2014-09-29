@@ -8,7 +8,7 @@ repositories {
 }
 
 group = 'io.ehdev'
-version = '1.0.3'
+version = '1.0.4'
 
 dependencies {
     compile gradleApi()
