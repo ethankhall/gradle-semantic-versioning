@@ -22,7 +22,13 @@ If you need to add a pre-release version this plugin does this too!
 
     project.version.with { major = 2; minor= 3; patch = 4; preRelease = "beta1"}
 
-With that input you will get the version string "1.2.3-beta1-SNAPSHOT" and will be missing the "-SNAPSHOT" if the release task is called.
+With that input you will get the version string "1.2.3-beta1-SNAPSHOT".
+
+If you want your build to be set as a release. Then you will set 'releaseBuild' property in the version.
+
+    project.version.with { major = 2; minor= 3; patch = 4; preRelease = "beta1"; releaseBuild = true }
+
+With the releaseBuild set to true the version string will be "1.2.3-beta1". The releaseBuild setting is a good place to put logic around if a build should be a release or not (based on branch or environment variable for example).
 
 ### What numbers should I update?
 
