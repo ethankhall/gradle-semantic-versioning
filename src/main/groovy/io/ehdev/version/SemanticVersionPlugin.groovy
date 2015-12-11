@@ -7,5 +7,6 @@ class SemanticVersionPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.setVersion(new Version())
+        project.tasks.create('release', ReleaseTask)
     }
 }
