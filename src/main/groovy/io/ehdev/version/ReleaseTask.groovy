@@ -4,9 +4,13 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
 class ReleaseTask extends DefaultTask {
+    public ReleaseTask() {
+        description = "Make the build a release version"  
+        group = "build"  
+    }
 
     @TaskAction
     def markBuildAsRelease() {
-        Version.releaseBuild = true;
+        project.version.releaseBuild = true;
     }
 }

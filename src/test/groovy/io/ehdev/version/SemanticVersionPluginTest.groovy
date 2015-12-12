@@ -31,9 +31,20 @@ public class SemanticVersionPluginTest {
     }
 
     @Test
-    public void testThatAfterReleaseIsCalledWillNotHaveSnapshot() throws Exception {
+    public void testThatAfterReleaseBuildIsSetWillNotHaveSnapshot() throws Exception {
         project.apply plugin: 'com.github.ethankhall.semantic-versioning'
         project.version.with { major = 1; minor= 2; patch = 3; releaseBuild=true}
         assertThat(project.version.toString()).isEqualToIgnoringCase("1.2.3")
     }
+    
+    @Test
+    public void testThatAfterReleaseTaskIsCalledWillNotHaveSnapshot() throws Exception {
+        project.apply plugin: 'com.github.ethankhall.semantic-versioning'
+        project.version.with { major = 1; minor= 2; patch = 3}
+        assertThat(project.version.toString()).isEqualToIgnoringCase("1.2.3-SNAPSHOT")
+        def releaseTask = project.tasks.findByName('release')
+        releaseTask.actions.each {action -> action.execute(releaseTask)}
+        assertThat(project.version.toString()).isEqualToIgnoringCase("1.2.3")
+    }
+    
 }
